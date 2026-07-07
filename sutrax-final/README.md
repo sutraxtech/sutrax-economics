@@ -21,10 +21,9 @@
 - [Tecnologías Utilizadas](#4-tecnologías-utilizadas)
 - [Estructura del Proyecto](#5-estructura-del-proyecto)
 - [Instrucciones de Instalación y Ejecución](#6-instrucciones-de-instalación-y-ejecución)
-- [Capturas de Pantalla](#7-capturas-de-pantalla)
-- [Evidencia Funcional](#8-evidencia-funcional)
-- [Información Académica](#9-información-académica)
-- [Licencia](#10-licencia)
+- [Evidencia Funcional](#7-evidencia-funcional)
+- [Información Académica](#8-información-académica)
+- [Licencia](#9-licencia)
 
 ---
 
@@ -240,7 +239,7 @@ GET  /api/simulation/macro-variables → Variables BCRD actuales
 
 ---
 
-## 10. Licencia
+## 9. Licencia
 
 ```
 MIT License — Copyright (c) 2026 Eric A. Diaz Gil · Sutrax Tech
