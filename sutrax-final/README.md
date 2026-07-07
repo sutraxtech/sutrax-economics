@@ -138,19 +138,14 @@ sutrax-economics/
 ├── 📁 mobile/                             # App Flutter Android (proyectado)
 │   └── 📄 README.md
 │
-├── 📁 docs/                               # Documentación académica
-│   ├── 📄 Sutrax_Economics_Proyecto_Final.docx
-│   ├── 📄 Sutrax_Economics_Presupuesto_Semana3_DOP.docx
-│   └── 📄 Sutrax_Economics_ROI_Semana5.pptx
 │
 └── 📁 screenshots/                        # Capturas de pantalla
-    ├── 📄 01_landing_hero.png
-    ├── 📄 02_login.png
-    ├── 📄 03_dashboard.png
-    ├── 📄 04_transacciones.png
-    ├── 📄 05_simulador.png
-    └── 📄 06_presupuestos.png
-```
+    ├── 📄 01
+    ├── 📄 02
+    ├── 📄 03
+    ├── 📄 04
+    ├── 📄 05
+    └── 📄 06
 
 ---
 
