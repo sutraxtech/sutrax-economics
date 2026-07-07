@@ -224,63 +224,10 @@ GET  /api/simulation/macro-variables → Variables BCRD actuales
 
 ---
 
-## 7. Capturas de Pantalla
 
-### Landing Page — Hero
-> 📁 Ver `/screenshots/01_landing_hero.png`
 
-### Pantalla de Login
-> 📁 Ver `/screenshots/02_login.png`
 
-### Dashboard Principal
-> 📁 Ver `/screenshots/03_dashboard.png`
-
-### Módulo de Transacciones
-> 📁 Ver `/screenshots/04_transacciones.png`
-
-### Simulador Macroeconómico
-> 📁 Ver `/screenshots/05_simulador.png`
-
-### Control de Presupuestos
-> 📁 Ver `/screenshots/06_presupuestos.png`
-
-> 📌 Todas las capturas están en la carpeta `/screenshots/` del repositorio.
-
----
-
-## 8. Evidencia Funcional
-
-### Funcionalidades verificables en `app.html`
-
-- ✅ Login con validación de credenciales
-- ✅ Registro de nuevos usuarios
-- ✅ Dashboard con balance en tiempo real
-- ✅ Agregar ingresos y gastos con categorías
-- ✅ Persistencia de datos con `localStorage`
-- ✅ Gráfico de barras ingresos vs gastos
-- ✅ Barras de presupuesto por categoría con alertas de color
-- ✅ Simulador de inflación con tasa BCRD (4.2% anual)
-- ✅ Conversión DOP/USD con tasa oficial (RD$58.64)
-- ✅ Formulario de contacto con validación
-- ✅ Cierre de sesión
-- ✅ Navegación entre 5 módulos del sistema
-
-### Video de presentación
-🎬 **[Insertar enlace de Google Drive aquí]**
-
-### ROI del Proyecto
-
-| Período | ROI | Ingresos Proyectados |
-|---------|-----|---------------------|
-| Año 1 | 62% | RD$363,600 |
-| Año 3 | 524% | RD$1,200,000 |
-| Año 5 | 1,248% | RD$2,800,000 |
-
-> Inversión total: **RD$224,434** · Payback: **~14 meses**
-
----
-
-## 9. Información Académica
+## Información Académica
 
 | Campo | Detalle |
 |-------|---------|
