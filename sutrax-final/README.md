@@ -33,7 +33,7 @@
 **Sutrax Economics**  
 Plataforma SaaS de Gestión y Simulación Financiera Personal
 
-Proyecto Final — **ISW410 Seminario de Proyecto I**  
+Proyecto Final — **Seminario de Proyecto I**  
 Universidad Abierta para Adultos (UAPA) · Trimestre Mayo–Julio 2026  
 Fecha de entrega: **8 de julio de 2026**
 
@@ -229,12 +229,12 @@ GET  /api/simulation/macro-variables → Variables BCRD actuales
 | **Participante** | Eric A. Diaz Gil |
 | **Matrícula** | 100032989 |
 | **Docente** | Ing. Henry Candelario |
-| **Asignatura** | ISW410 — Seminario de Proyecto I |
+| **Asignatura** | Seminario de Proyecto I |
 | **Universidad** | Universidad Abierta para Adultos (UAPA) |
 | **Escuela** | Escuela de Ingeniería y Tecnología |
 | **Carrera** | Informática Gerencial |
 | **Trimestre** | Mayo – Julio 2026 |
-| **Fecha de Entrega** | 8 de julio de 2026 |
+| **Fecha de Entrega** | 7 de julio de 2026 |
 | **Metodología** | Scrumban (Scrum + Kanban) |
 | **Sprints** | 5 sprints de 2 semanas |
 
