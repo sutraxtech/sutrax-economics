@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sutrax Economics</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══ RESET & VARS ═══════════════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0a;--bg2:#0f0f13;--card:#12121a;--card2:#16162a;
+  --purple:#8B5CF6;--purple2:#6D28D9;--purple-neon:#A78BFA;
+  --blue:#3B82F6;--blue2:#1D4ED8;--blue-neon:#60A5FA;
+  --teal:#0FD4A0;--teal2:#059669;--red:#F87171;--amber:#FBBF24;
+  --border:rgba(139,92,246,0.18);--border2:rgba(139,92,246,0.35);
+  --text:#E8E8F0;--muted:#7C7C9A;--white:#fff;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--bg);overflow-x:hidden}
+
+/* ═══ SCREENS ════════════════════════════════════════════════ */
+.screen{display:none}
+.screen.active{display:block}
+#app-screen.active{display:flex;height:100vh;overflow:hidden}
+
+/* ═══════════════════════════════════════════════════════════ */
+/*  LANDING PAGE                                              */
+/* ═══════════════════════════════════════════════════════════ */
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,10,10,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:68px;}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:var(--white);}
+.nav-logo span{background:linear-gradient(90deg,var(--purple-neon),var(--blue-neon));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.88rem;transition:color 0.2s}
+.nav-links a:hover{color:var(--purple-neon)}
+.nav-cta{background:linear-gradient(135deg,var(--purple2),var(--blue2));color:#fff;border:none;padding:0.5rem 1.3rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:500;cursor:pointer;transition:opacity 0.2s;}
+.nav-cta:hover{opacity:0.85}
+/* HERO */
+.hero{min-height:100vh;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5rem 5% 4rem;position:relative;overflow:hidden;}
+.hero-orb1{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,0.15) 0%,transparent 70%);top:-100px;left:-100px;pointer-events:none;}
+.hero-orb2{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,0.12) 0%,transparent 70%);bottom:-50px;right:-50px;pointer-events:none;}
+.hero-orb3{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(15,212,160,0.08) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(139,92,246,0.12);border:1px solid var(--border2);color:var(--purple-neon);padding:0.35rem 1rem;border-radius:100px;font-size:0.78rem;font-weight:500;margin-bottom:2rem;position:relative;z-index:1;}
+.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.4rem,5.5vw,4rem);color:var(--white);line-height:1.1;max-width:780px;margin-bottom:1.5rem;letter-spacing:-1.5px;position:relative;z-index:1;}
+.grad{background:linear-gradient(90deg,var(--purple-neon) 0%,var(--blue-neon) 50%,var(--teal) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero p{color:var(--muted);font-size:1.05rem;max-width:540px;line-height:1.75;margin-bottom:2.5rem;position:relative;z-index:1;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;position:relative;z-index:1}
+.btn-primary{background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border:none;padding:0.85rem 2rem;border-radius:8px;font-size:0.95rem;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;box-shadow:0 0 24px rgba(139,92,246,0.3);transition:all 0.2s;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 36px rgba(139,92,246,0.45)}
+.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border2);padding:0.85rem 2rem;border-radius:8px;font-size:0.95rem;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;transition:all 0.2s;}
+.btn-secondary:hover{border-color:var(--purple-neon);color:var(--purple-neon)}
+.hero-stats{display:flex;gap:3rem;margin-top:4rem;flex-wrap:wrap;justify-content:center;padding-top:3rem;border-top:1px solid var(--border);width:100%;max-width:700px;position:relative;z-index:1;}
+.stat-item{text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-weight:700;font-size:2rem;color:var(--white)}
+.stat-g{background:linear-gradient(90deg,var(--purple-neon),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.stat-label{color:var(--muted);font-size:0.78rem;margin-top:0.2rem}
+/* SECTIONS */
+section{padding:5rem 5%}
+.section-tag{display:inline-block;background:rgba(139,92,246,0.1);color:var(--purple-neon);border:1px solid rgba(139,92,246,0.25);padding:0.3rem 0.9rem;border-radius:100px;font-size:0.75rem;font-weight:500;letter-spacing:0.8px;margin-bottom:1rem;}
+.section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(1.8rem,3.2vw,2.4rem);color:var(--white);letter-spacing:-0.5px;margin-bottom:1rem;}
+.section-sub{color:var(--muted);font-size:0.95rem;line-height:1.75;max-width:520px}
+/* ABOUT */
+.about-bg{background:var(--bg2)}
+.about-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.about-visual{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:2.5rem;position:relative;overflow:hidden;}
+.about-pill{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(15,212,160,0.1);border:1px solid rgba(15,212,160,0.25);color:var(--teal);padding:0.3rem 0.8rem;border-radius:100px;font-size:0.72rem;margin-bottom:1.5rem;}
+.about-visual h3{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;color:var(--white);margin-bottom:0.7rem}
+.about-visual p{color:var(--muted);font-size:0.88rem;line-height:1.7;margin-bottom:1.5rem}
+.about-chips{display:flex;flex-wrap:wrap;gap:0.5rem}
+.chip{background:rgba(139,92,246,0.1);color:var(--purple-neon);padding:0.3rem 0.7rem;border-radius:6px;font-size:0.73rem;border:1px solid rgba(139,92,246,0.2);}
+.info-list{list-style:none;margin-top:1.5rem;display:flex;flex-direction:column;gap:0.9rem}
+.info-list li{display:flex;align-items:flex-start;gap:0.75rem;font-size:0.92rem;color:var(--text);line-height:1.5}
+.info-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);margin-top:6px;flex-shrink:0}
+/* FEATURES */
+.features-bg{background:var(--bg)}
+.features-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.8rem;transition:all 0.25s;}
+.feature-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 0 30px rgba(139,92,246,0.12)}
+.feature-icon{width:46px;height:46px;border-radius:10px;background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.2);display:flex;align-items:center;justify-content:center;margin-bottom:1.2rem;font-size:1.3rem;}
+.feature-card h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:0.5rem}
+.feature-card p{color:var(--muted);font-size:0.87rem;line-height:1.65}
+.features-header{max-width:1100px;margin:0 auto 3.5rem}
+/* TIMELINE */
+.timeline-bg{background:var(--bg2)}
+.timeline-inner{max-width:860px;margin:0 auto}
+.timeline{position:relative;padding-left:1.5rem}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1.5px;background:linear-gradient(to bottom,var(--purple),var(--blue),var(--teal));border-radius:2px;}
+.timeline-item{position:relative;margin-bottom:2.2rem;padding-left:2rem}
+.timeline-dot{position:absolute;left:-2.2rem;top:0.2rem;width:13px;height:13px;border-radius:50%;background:var(--purple);box-shadow:0 0 10px rgba(139,92,246,0.6);}
+.timeline-week{display:inline-block;background:rgba(139,92,246,0.1);color:var(--purple-neon);padding:0.2rem 0.6rem;border-radius:4px;font-size:0.72rem;margin-bottom:0.35rem;border:1px solid rgba(139,92,246,0.2);}
+.timeline-phase{font-size:0.72rem;font-weight:500;color:var(--teal);letter-spacing:0.8px;margin-bottom:0.2rem}
+.timeline-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--white);margin-bottom:0.3rem}
+.timeline-desc{color:var(--muted);font-size:0.87rem;line-height:1.65}
+/* PRICING */
+.pricing-bg{background:var(--bg)}
+.pricing-grid{max-width:980px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.25rem}
+.price-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;position:relative;}
+.price-card.featured{background:var(--card2);border-color:var(--purple);box-shadow:0 0 40px rgba(139,92,246,0.15);}
+.price-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(90deg,var(--purple),var(--blue));color:#fff;padding:0.25rem 1rem;border-radius:100px;font-size:0.72rem;font-weight:500;white-space:nowrap;}
+.price-plan{font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:700;color:var(--muted);letter-spacing:1.2px;margin-bottom:0.8rem}
+.price-amount{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:var(--white);line-height:1}
+.price-amount span{font-size:0.95rem;font-weight:400;color:var(--muted)}
+.price-period{color:var(--muted);font-size:0.82rem;margin-top:0.2rem;margin-bottom:1.5rem}
+.price-features{list-style:none;margin-bottom:1.8rem;display:flex;flex-direction:column;gap:0.6rem}
+.price-features li{display:flex;align-items:center;gap:0.6rem;font-size:0.87rem;color:var(--text)}
+.lcheck{color:var(--teal);font-weight:700}.lcheck-no{color:rgba(255,255,255,0.15)}
+.price-btn{width:100%;padding:0.8rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.92rem;font-weight:500;cursor:pointer;transition:all 0.2s;}
+.price-btn.outline{background:transparent;border:1px solid var(--border2);color:var(--text)}
+.price-btn.outline:hover{border-color:var(--purple-neon);color:var(--purple-neon)}
+.price-btn.solid{background:linear-gradient(135deg,var(--purple),var(--blue));border:none;color:#fff}
+.pricing-header{max-width:980px;margin:0 auto 3.5rem}
+/* TEAM */
+.team-bg{background:var(--bg2)}.team-inner{max-width:900px;margin:0 auto}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem}
+.team-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem;text-align:center;transition:all 0.2s;}
+.team-card:hover{border-color:var(--border2);box-shadow:0 0 24px rgba(139,92,246,0.1)}
+.team-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--purple2),var(--blue2));display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-family:'Syne',sans-serif;font-weight:700;font-size:1.3rem;color:#fff;box-shadow:0 0 24px rgba(139,92,246,0.35);}
+.team-name{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--white);margin-bottom:0.25rem}
+.team-role{color:var(--purple-neon);font-size:0.78rem;font-weight:500;margin-bottom:0.6rem}
+.team-bio{color:var(--muted);font-size:0.83rem;line-height:1.6}
+/* CONTACT */
+.contact-bg{background:var(--bg)}.contact-inner{max-width:680px;margin:0 auto;text-align:center}
+.lcontact-form{display:flex;flex-direction:column;gap:1rem;text-align:left}
+.lform-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.lform-group{display:flex;flex-direction:column;gap:0.4rem}
+.lform-group label{color:var(--muted);font-size:0.82rem}
+.lform-group input,.lform-group textarea,.lform-group select{background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:0.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.92rem;outline:none;transition:border 0.2s;width:100%;}
+.lform-group input:focus,.lform-group textarea:focus,.lform-group select:focus{border-color:var(--purple)}
+.lform-group input::placeholder,.lform-group textarea::placeholder{color:rgba(124,124,154,0.5)}
+.lform-group textarea{height:110px;resize:none}
+.lform-group select option{background:var(--card2);color:var(--text)}
+.lsend-btn{background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border:none;padding:0.9rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;margin-top:0.5rem;box-shadow:0 0 24px rgba(139,92,246,0.3);transition:opacity 0.2s;}
+.lsend-btn:hover{opacity:0.88}
+.lcontact-info{display:flex;gap:2rem;justify-content:center;margin-top:2rem;flex-wrap:wrap}
+.lcontact-info-item{color:var(--muted);font-size:0.85rem}
+/* FOOTER */
+footer{background:var(--bg2);padding:2rem 5%;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;border-top:1px solid var(--border);}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;color:var(--white);font-size:1.1rem}
+.footer-logo span{background:linear-gradient(90deg,var(--purple-neon),var(--blue-neon));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.footer-copy{color:rgba(124,124,154,0.6);font-size:0.78rem}
+.footer-links{display:flex;gap:1.5rem}
+.footer-links a{color:var(--muted);font-size:0.8rem;text-decoration:none;transition:color 0.2s}
+.footer-links a:hover{color:var(--purple-neon)}
+
+/* ═══════════════════════════════════════════════════════════ */
+/*  AUTH SCREEN                                               */
+/* ═══════════════════════════════════════════════════════════ */
+#auth-screen{flex-direction:column;align-items:center;justify-content:center;min-height:100vh;position:relative;overflow:hidden}
+.auth-box{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:2.5rem 2rem;width:380px;max-width:90vw;position:relative;z-index:1}
+.auth-back{position:absolute;top:1.2rem;left:1.5rem;background:transparent;border:1px solid var(--border);color:var(--muted);padding:0.4rem 0.9rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;transition:all 0.2s;z-index:2}
+.auth-back:hover{border-color:var(--purple-neon);color:var(--purple-neon)}
+.auth-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;color:var(--white);text-align:center;margin-bottom:0.3rem}
+.auth-logo span{background:linear-gradient(90deg,var(--purple-neon),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.auth-sub{color:var(--muted);font-size:0.85rem;text-align:center;margin-bottom:2rem}
+.tabs{display:flex;background:var(--bg2);border-radius:8px;padding:4px;margin-bottom:1.5rem;gap:4px}
+.tab{flex:1;padding:0.5rem;border:none;background:transparent;color:var(--muted);border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.9rem;transition:all 0.2s}
+.tab.active{background:var(--purple2);color:#fff}
+.aform-group{margin-bottom:1rem}
+.aform-group label{display:block;font-size:0.82rem;color:var(--muted);margin-bottom:0.4rem}
+.aform-group input{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:0.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.92rem;outline:none;transition:border 0.2s}
+.aform-group input:focus{border-color:var(--purple)}
+.aform-group input::placeholder{color:rgba(124,124,154,0.5)}
+.auth-btn{width:100%;padding:0.85rem;border-radius:8px;border:none;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;margin-top:0.5rem;transition:opacity 0.2s}
+.auth-btn:hover{opacity:0.88}
+.auth-err{background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:var(--red);border-radius:8px;padding:0.6rem 0.9rem;font-size:0.85rem;margin-top:0.8rem;display:none}
+.demo-hint{text-align:center;margin-top:1.2rem;font-size:0.8rem;color:var(--muted)}
+.demo-hint strong{color:var(--purple-neon)}
+
+/* ═══════════════════════════════════════════════════════════ */
+/*  APP DASHBOARD                                             */
+/* ═══════════════════════════════════════════════════════════ */
+.sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+.sidebar-logo{padding:1.2rem 1.2rem 0.8rem;font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--white);border-bottom:1px solid var(--border)}
+.sidebar-logo span{background:linear-gradient(90deg,var(--purple-neon),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.user-pill{margin:0.8rem 1rem;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.6rem 0.8rem;display:flex;align-items:center;gap:0.6rem}
+.avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--purple2),var(--blue2));display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:#fff;flex-shrink:0}
+.user-name{font-size:0.82rem;color:var(--text);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.app-nav{flex:1;padding:0.5rem 0.6rem}
+.nav-item{display:flex;align-items:center;gap:0.65rem;padding:0.6rem 0.8rem;border-radius:8px;cursor:pointer;font-size:0.88rem;color:var(--muted);transition:all 0.2s;margin-bottom:2px;border:none;background:transparent;width:100%;text-align:left}
+.nav-item:hover{background:rgba(139,92,246,0.08);color:var(--text)}
+.nav-item.active{background:rgba(139,92,246,0.15);color:var(--purple-neon);border:1px solid rgba(139,92,246,0.2)}
+.nav-icon{font-size:1rem;width:18px;text-align:center}
+.logout-btn{margin:0.8rem;padding:0.6rem 0.8rem;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.85rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:0.5rem}
+.logout-btn:hover{border-color:var(--red);color:var(--red)}
+.main{flex:1;overflow-y:auto;background:var(--bg)}
+.main::-webkit-scrollbar{width:6px}
+.main::-webkit-scrollbar-track{background:var(--bg)}
+.main::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+.dpage{display:none;padding:1.5rem}
+.dpage.active{display:block}
+.dpage-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.4rem;color:var(--white);margin-bottom:0.3rem}
+.dpage-sub{color:var(--muted);font-size:0.88rem;margin-bottom:1.5rem}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem}
+.slabel{font-size:0.75rem;color:var(--muted);font-weight:500;letter-spacing:0.5px;margin-bottom:0.5rem}
+.sval{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;color:var(--white)}
+.sval.green{color:var(--teal)}.sval.red{color:var(--red)}.sval.purple{color:var(--purple-neon)}
+.dsection{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;margin-bottom:1.2rem}
+.dsection-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.dsection-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--white)}
+.add-btn{background:linear-gradient(135deg,var(--purple),var(--blue));border:none;color:#fff;padding:0.4rem 0.9rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;transition:opacity 0.2s}
+.add-btn:hover{opacity:0.85}
+.tx-list{display:flex;flex-direction:column;gap:0.5rem}
+.tx-item{display:flex;align-items:center;justify-content:space-between;background:var(--bg2);border-radius:8px;padding:0.7rem 0.9rem}
+.tx-left{display:flex;align-items:center;gap:0.7rem}
+.tx-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.tx-icon.income{background:rgba(15,212,160,0.15)}.tx-icon.expense{background:rgba(248,113,113,0.15)}
+.tx-desc{font-size:0.88rem;color:var(--text)}.tx-cat{font-size:0.75rem;color:var(--muted)}
+.tx-amount{font-size:0.95rem;font-weight:500}
+.tx-amount.income{color:var(--teal)}.tx-amount.expense{color:var(--red)}
+.tx-date{font-size:0.75rem;color:var(--muted);text-align:right}
+.dempty{text-align:center;padding:2rem;color:var(--muted);font-size:0.88rem}
+.tag{display:inline-block;padding:0.2rem 0.6rem;border-radius:100px;font-size:0.72rem;font-weight:500}
+.tag.income{background:rgba(15,212,160,0.1);color:var(--teal);border:1px solid rgba(15,212,160,0.2)}
+.tag.expense{background:rgba(248,113,113,0.1);color:var(--red);border:1px solid rgba(248,113,113,0.2)}
+.mini-chart{display:flex;align-items:flex-end;gap:6px;height:80px;margin-top:0.8rem}
+.mbar{flex:1;border-radius:4px 4px 0 0;min-width:20px;cursor:pointer}
+.budget-item{margin-bottom:1rem}
+.budget-header{display:flex;justify-content:space-between;margin-bottom:0.4rem;font-size:0.88rem}
+.budget-cat{color:var(--text)}.budget-nums{color:var(--muted);font-size:0.8rem}
+.bar-bg{background:var(--bg2);border-radius:100px;height:8px;overflow:hidden}
+.bar-fill{height:100%;border-radius:100px;transition:width 0.5s ease}
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.kpi-card{background:var(--bg2);border-radius:10px;padding:1rem;text-align:center}
+.kpi-icon{font-size:1.5rem;margin-bottom:0.5rem}
+.kpi-val{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;margin-bottom:0.2rem}
+.kpi-label{font-size:0.75rem;color:var(--muted)}
+.sim-inputs{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem}
+.sim-input-group{display:flex;flex-direction:column;gap:0.4rem}
+.sim-input-group label{font-size:0.82rem;color:var(--muted)}
+.sim-input-group input,.sim-input-group select{background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:0.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.92rem;outline:none;transition:border 0.2s}
+.sim-input-group input:focus,.sim-input-group select:focus{border-color:var(--purple)}
+.sim-input-group select option{background:var(--card2)}
+.sim-result{background:var(--bg2);border-radius:10px;padding:1rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.sim-res-item{text-align:center}
+.sim-res-label{font-size:0.75rem;color:var(--muted);margin-bottom:0.3rem}
+.sim-res-val{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--teal)}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;display:none;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:1.8rem;width:400px;max-width:90vw}
+.modal-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:var(--white);margin-bottom:1.2rem}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:0.8rem}
+.mgroup{display:flex;flex-direction:column;gap:0.4rem}
+.mgroup label{font-size:0.82rem;color:var(--muted)}
+.mgroup input,.mgroup select{background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:0.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.92rem;outline:none;width:100%;transition:border 0.2s}
+.mgroup input:focus,.mgroup select:focus{border-color:var(--purple)}
+.mgroup select option{background:var(--card2)}
+.modal-actions{display:flex;gap:0.8rem;margin-top:1.2rem}
+.modal-actions button{flex:1;padding:0.75rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.92rem;cursor:pointer;transition:all 0.2s}
+.btn-cancel{background:transparent;border:1px solid var(--border2);color:var(--text)}
+.btn-cancel:hover{border-color:var(--red);color:var(--red)}
+.btn-save{background:linear-gradient(135deg,var(--purple),var(--blue));border:none;color:#fff}
+.btn-save:hover{opacity:0.88}
+/* Contact in app */
+.ct-form{display:flex;flex-direction:column;gap:1rem}
+.ct-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.ct-group{display:flex;flex-direction:column;gap:0.4rem}
+.ct-group label{font-size:0.82rem;color:var(--muted)}
+.ct-group input,.ct-group select,.ct-group textarea{background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:0.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.92rem;outline:none;width:100%;transition:border 0.2s}
+.ct-group input:focus,.ct-group select:focus,.ct-group textarea:focus{border-color:var(--purple)}
+.ct-group input::placeholder,.ct-group textarea::placeholder{color:rgba(124,124,154,0.5)}
+.ct-group textarea{height:110px;resize:none}
+.ct-group select option{background:var(--card2)}
+.ct-send{background:linear-gradient(135deg,var(--purple),var(--blue));border:none;color:#fff;padding:0.85rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;cursor:pointer;margin-top:0.5rem;transition:opacity 0.2s}
+.ct-send:hover{opacity:0.88}
+.ct-success{background:rgba(15,212,160,0.1);border:1px solid rgba(15,212,160,0.3);color:var(--teal);border-radius:8px;padding:0.8rem 1rem;font-size:0.88rem;margin-top:1rem;display:none}
+@media(max-width:768px){.about-inner{grid-template-columns:1fr}.lform-row{grid-template-columns:1fr}.nav-links{display:none}.stat-grid{grid-template-columns:1fr 1fr}.sim-inputs{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  SCREEN 1: LANDING PAGE                                -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="landing-screen" class="screen active">
+
+<nav>
+  <div class="nav-logo">Sutrax<span>.Economics</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">Proyecto</a></li>
+    <li><a href="#features">Características</a></li>
+    <li><a href="#timeline">Cronograma</a></li>
+    <li><a href="#pricing">Precios</a></li>
+    <li><a href="#team">Equipo</a></li>
+    <li><a href="#contact">Contacto</a></li>
+  </ul>
+  <button class="nav-cta" onclick="goToAuth()">Comenzar gratis</button>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-orb1"></div><div class="hero-orb2"></div><div class="hero-orb3"></div>
+  <div class="hero-badge">🚀 Plataforma SaaS · Mayo–Julio 2026</div>
+  <h1>Toma el control de tus <span class="grad">finanzas</span> con inteligencia</h1>
+  <p>Sutrax Economics es la plataforma de simulación y gestión financiera diseñada para emprendedores, estudiantes y pequeñas empresas dominicanas.</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="goToAuth()">Empieza gratis</button>
+    <button class="btn-secondary" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Ver características</button>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item"><div class="stat-num"><span class="stat-g">100%</span></div><div class="stat-label">En la nube</div></div>
+    <div class="stat-item"><div class="stat-num"><span class="stat-g">2+</span></div><div class="stat-label">Plataformas Web + Android</div></div>
+    <div class="stat-item"><div class="stat-num"><span class="stat-g">RD$0</span></div><div class="stat-label">Para empezar</div></div>
+    <div class="stat-item"><div class="stat-num"><span class="stat-g">10</span></div><div class="stat-label">Sprints de desarrollo</div></div>
+  </div>
+</section>
+
+<section id="about" class="about-bg">
+  <div class="about-inner">
+    <div class="about-visual">
+      <div class="about-pill">⚡ Motor predictivo</div>
+      <h3>No es solo un registro de gastos</h3>
+      <p>Es un motor de simulación macroeconómica que te permite anticipar escenarios financieros antes de tomar decisiones de inversión.</p>
+      <div class="about-chips">
+        <span class="chip">React / Vue.js</span><span class="chip">Node.js</span><span class="chip">Firebase</span>
+        <span class="chip">AWS</span><span class="chip">Flutter</span><span class="chip">Scrumban</span>
+      </div>
+    </div>
+    <div>
+      <div class="section-tag">SOBRE EL PROYECTO</div>
+      <h2 class="section-title">¿Qué es Sutrax Economics?</h2>
+      <p class="section-sub">Nació para resolver la falta de herramientas accesibles, centralizadas y adaptadas a la realidad macroeconómica local.</p>
+      <ul class="info-list">
+        <li><div class="info-dot"></div><span>Centraliza ingresos, gastos y metas de ahorro en una sola plataforma intuitiva</span></li>
+        <li><div class="info-dot"></div><span>Simula escenarios con variables reales: tasas de interés, inflación y divisas del BCRD</span></li>
+        <li><div class="info-dot"></div><span>Genera reportes visuales y alertas de presupuesto en tiempo real</span></li>
+        <li><div class="info-dot"></div><span>Disponible en web y app Android</span></li>
+        <li><div class="info-dot"></div><span>Desarrollado con rigor académico en UAPA, Informática Gerencial</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="features-bg">
+  <div class="features-header">
+    <div class="section-tag">CARACTERÍSTICAS</div>
+    <h2 class="section-title">Todo lo que necesitas para gestionar tu dinero</h2>
+    <p class="section-sub">Herramientas para quien no es contador pero necesita tomar decisiones financieras inteligentes.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card"><div class="feature-icon">📊</div><h3>Simulador macroeconómico</h3><p>Proyecta el impacto de la inflación, tasas de interés y divisas en tus costos antes de invertir.</p></div>
+    <div class="feature-card"><div class="feature-icon">💰</div><h3>Control de presupuesto</h3><p>Registra ingresos y gastos, categoriza transacciones y recibe alertas al acercarte a tu límite.</p></div>
+    <div class="feature-card"><div class="feature-icon">📈</div><h3>Reportes visuales ejecutivos</h3><p>Gráficos que traducen datos complejos en conclusiones accionables. Exporta en PDF.</p></div>
+    <div class="feature-card"><div class="feature-icon">🎯</div><h3>Metas de ahorro inteligentes</h3><p>Define objetivos y monitorea tu progreso con indicadores visuales que te mantienen enfocado.</p></div>
+    <div class="feature-card"><div class="feature-icon">📱</div><h3>App móvil Android</h3><p>Tablero de control de bolsillo. Registra gastos rápidos y consulta métricas desde cualquier lugar.</p></div>
+    <div class="feature-card"><div class="feature-icon">🔒</div><h3>Seguridad de nivel bancario</h3><p>Firebase + AWS con autenticación segura y encriptación de datos financieros sensibles.</p></div>
+  </div>
+</section>
+
+<section id="timeline" class="timeline-bg">
+  <div class="timeline-inner">
+    <div style="margin-bottom:3rem">
+      <div class="section-tag">CRONOGRAMA</div>
+      <h2 class="section-title">Ruta de desarrollo</h2>
+      <p class="section-sub">10 semanas bajo metodología Scrumban, mayo–julio 2026.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-dot" style="background:var(--teal);box-shadow:0 0 10px rgba(15,212,160,0.6)"></div><div class="timeline-week">Semana 1–2</div><div class="timeline-phase">FASE 1 · ANÁLISIS</div><div class="timeline-title">Levantamiento de requerimientos y estudio de viabilidad</div><div class="timeline-desc">Requerimientos funcionales y no funcionales. Aprobación del facilitador. Estado: completado ✓</div></div>
+      <div class="timeline-item"><div class="timeline-dot" style="background:var(--teal);box-shadow:0 0 10px rgba(15,212,160,0.6)"></div><div class="timeline-week">Semana 3–4</div><div class="timeline-phase">FASE 2 · DISEÑO</div><div class="timeline-title">Arquitectura, UML y prototipado UI/UX</div><div class="timeline-desc">Diagramas UML, wireframes en Figma para Web y Android. Completado ✓</div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-week">Semana 5–8</div><div class="timeline-phase">FASE 3 · DESARROLLO</div><div class="timeline-title">Programación del núcleo, frontend y módulo móvil</div><div class="timeline-desc">Motor financiero, frontend responsivo, app Android y APIs en tiempo real.</div></div>
+      <div class="timeline-item"><div class="timeline-dot" style="background:var(--card2);border:2px solid var(--purple)"></div><div class="timeline-week">Semana 9</div><div class="timeline-phase">FASE 4 · PRUEBAS</div><div class="timeline-title">Pruebas técnicas y validación con usuarios beta</div><div class="timeline-desc">Pruebas unitarias, de integración y usabilidad con emprendedores de Sutrax Tech.</div></div>
+      <div class="timeline-item"><div class="timeline-dot" style="background:var(--card2);border:2px solid var(--blue)"></div><div class="timeline-week">Semana 10</div><div class="timeline-phase">FASE 5 · LANZAMIENTO</div><div class="timeline-title">Despliegue final y entrega del proyecto</div><div class="timeline-desc">Producción cloud, APK Android, informe final con Burn Down Charts y sustentación académica.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" class="pricing-bg">
+  <div class="pricing-header">
+    <div class="section-tag">PRECIOS</div>
+    <h2 class="section-title">Planes para cada etapa de tu negocio</h2>
+    <p class="section-sub">Comienza gratis y escala cuando lo necesites. Sin tarjeta de crédito.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-plan">FREEMIUM</div><div class="price-amount">RD$0</div><div class="price-period">Para siempre · Plan básico</div>
+      <ul class="price-features">
+        <li><span class="lcheck">✓</span> Control de ingresos y gastos</li><li><span class="lcheck">✓</span> Hasta 3 metas de ahorro</li>
+        <li><span class="lcheck">✓</span> Reportes básicos mensuales</li><li><span class="lcheck">✓</span> App móvil Android</li>
+        <li><span class="lcheck-no">✗</span> <span style="color:var(--muted)">Motor de simulación</span></li>
+        <li><span class="lcheck-no">✗</span> <span style="color:var(--muted)">Exportación a PDF</span></li>
+      </ul>
+      <button class="price-btn outline" onclick="goToAuth()">Comenzar gratis</button>
+    </div>
+    <div class="price-card featured">
+      <div class="price-badge">Más popular</div><div class="price-plan">PRO B2C</div>
+      <div class="price-amount">RD$590 <span>/mes</span></div><div class="price-period">Estudiantes y emprendedores</div>
+      <ul class="price-features">
+        <li><span class="lcheck">✓</span> Todo lo del plan Freemium</li><li><span class="lcheck">✓</span> Motor de simulación macroeconómica</li>
+        <li><span class="lcheck">✓</span> Exportación a PDF ejecutivo</li><li><span class="lcheck">✓</span> Alertas de presupuesto avanzadas</li>
+        <li><span class="lcheck">✓</span> Soporte prioritario</li><li><span class="lcheck">✓</span> Metas de ahorro ilimitadas</li>
+      </ul>
+      <button class="price-btn solid" onclick="goToAuth()">Probar 14 días gratis</button>
+    </div>
+    <div class="price-card">
+      <div class="price-plan">CORPORATIVO B2B</div><div class="price-amount">RD$4,200 <span>/mes</span></div><div class="price-period">PyMEs y consultoras</div>
+      <ul class="price-features">
+        <li><span class="lcheck">✓</span> Todo lo del plan Pro</li><li><span class="lcheck">✓</span> Hasta 10 usuarios</li>
+        <li><span class="lcheck">✓</span> Panel administrativo</li><li><span class="lcheck">✓</span> API de integración</li>
+        <li><span class="lcheck">✓</span> Reportes personalizados</li><li><span class="lcheck">✓</span> Onboarding dedicado</li>
+      </ul>
+      <button class="price-btn outline" onclick="goToAuth()">Contactar ventas</button>
+    </div>
+  </div>
+</section>
+
+<section id="team" class="team-bg">
+  <div class="team-inner">
+    <div style="margin-bottom:3rem"><div class="section-tag">EQUIPO</div><h2 class="section-title">Las personas detrás del proyecto</h2><p class="section-sub">Construido con rigor académico y experiencia del sector financiero dominicano.</p></div>
+    <div class="team-grid">
+      <div class="team-card"><div class="team-avatar">ED</div><div class="team-name">Eric A. Diaz Gil</div><div class="team-role">Fundador & Desarrollador Principal</div><div class="team-bio">Estudiante de Informática Gerencial en UAPA. Profesional del sector bancario y fundador de Sutrax Tech.</div></div>
+      <div class="team-card"><div class="team-avatar" style="background:linear-gradient(135deg,#059669,#0FD4A0);box-shadow:0 0 24px rgba(15,212,160,0.3)">HC</div><div class="team-name">Henry Candelario</div><div class="team-role">Facilitador Académico · UAPA</div><div class="team-bio">Facilitador de Seminario de Proyecto I en la Escuela de Ingeniería y Tecnología de UAPA.</div></div>
+      <div class="team-card"><div class="team-avatar" style="background:linear-gradient(135deg,#1D4ED8,#3B82F6);box-shadow:0 0 24px rgba(59,130,246,0.3)">ST</div><div class="team-name">Sutrax Tech</div><div class="team-role">Empresa desarrolladora</div><div class="team-bio">Ecosistema tecnológico que provee infraestructura, aliados y entorno de pruebas piloto.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact-bg">
+  <div class="contact-inner">
+    <div class="section-tag">CONTACTO</div>
+    <h2 class="section-title">¿Listo para transformar tus finanzas?</h2>
+    <p class="section-sub" style="margin:0 auto 2.5rem">Escríbenos para una demostración o para resolver cualquier duda.</p>
+    <div class="lcontact-form">
+      <div class="lform-row">
+        <div class="lform-group"><label>Nombre completo</label><input type="text" id="l-name" placeholder="Tu nombre"></div>
+        <div class="lform-group"><label>Correo electrónico</label><input type="email" id="l-email" placeholder="tu@email.com"></div>
+      </div>
+      <div class="lform-group">
+        <label>Tipo de consulta</label>
+        <select id="l-type"><option>Quiero probar el producto</option><option>Plan corporativo B2B</option><option>Alianza estratégica</option><option>Otro</option></select>
+      </div>
+      <div class="lform-group"><label>Mensaje</label><textarea id="l-msg" placeholder="Cuéntanos sobre tu caso..."></textarea></div>
+      <button class="lsend-btn" onclick="sendLandingContact()">Enviar mensaje →</button>
+      <div id="l-success" style="display:none;background:rgba(15,212,160,0.1);border:1px solid rgba(15,212,160,0.3);color:var(--teal);border-radius:8px;padding:0.8rem;font-size:0.88rem;margin-top:0.8rem">✅ ¡Mensaje enviado! Te contactaremos pronto.</div>
+    </div>
+    <div class="lcontact-info" style="margin-top:2rem">
+      <div class="lcontact-info-item">📍 Santo Domingo, República Dominicana</div>
+      <div class="lcontact-info-item">🎓 UAPA · Informática Gerencial</div>
+      <div class="lcontact-info-item">🏢 Sutrax Tech</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Sutrax<span>.Economics</span></div>
+  <div class="footer-copy">© 2026 Sutrax Tech · Todos los derechos reservados</div>
+  <div class="footer-links"><a href="#about">Proyecto</a><a href="#features">Características</a><a href="#contact">Contacto</a></div>
+</footer>
+
+</div><!-- /landing-screen -->
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  SCREEN 2: AUTH (LOGIN / REGISTER)                     -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="auth-screen" class="screen" style="display:none;min-height:100vh;align-items:center;justify-content:center;position:relative;overflow:hidden">
+  <div class="hero-orb1"></div><div class="hero-orb2"></div>
+  <button class="auth-back" onclick="goToLanding()">← Volver</button>
+  <div class="auth-box">
+    <div class="auth-logo">Sutrax<span>.Economics</span></div>
+    <div class="auth-sub">Gestión financiera inteligente para la RD</div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('login')">Iniciar sesión</button>
+      <button class="tab" onclick="switchTab('register')">Registrarse</button>
+    </div>
+    <div id="login-form">
+      <div class="aform-group"><label>Correo electrónico</label><input type="email" id="login-email" placeholder="tu@email.com"></div>
+      <div class="aform-group"><label>Contraseña</label><input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="auth-btn" onclick="doLogin()">Entrar →</button>
+      <div id="login-err" class="auth-err">Credenciales incorrectas. Usa el demo de abajo.</div>
+    </div>
+    <div id="register-form" style="display:none">
+      <div class="aform-group"><label>Nombre completo</label><input type="text" id="reg-name" placeholder="Tu nombre"></div>
+      <div class="aform-group"><label>Correo electrónico</label><input type="email" id="reg-email" placeholder="tu@email.com"></div>
+      <div class="aform-group"><label>Contraseña</label><input type="password" id="reg-pass" placeholder="Mínimo 6 caracteres" onkeydown="if(event.key==='Enter')doRegister()"></div>
+      <button class="auth-btn" onclick="doRegister()">Crear cuenta →</button>
+      <div id="reg-err" class="auth-err"></div>
+    </div>
+    <div class="demo-hint">Demo: <strong>demo@sutrax.com</strong> / <strong>demo123</strong></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  SCREEN 3: APP DASHBOARD                               -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="app-screen" class="screen">
+  <div class="sidebar">
+    <div class="sidebar-logo">Sutrax<span>.Economics</span></div>
+    <div class="user-pill"><div class="avatar" id="user-avatar">ED</div><div class="user-name" id="user-name-display">Eric Diaz</div></div>
+    <nav class="app-nav">
+      <button class="nav-item active" onclick="goPage('dashboard',this)"><span class="nav-icon">📊</span>Dashboard</button>
+      <button class="nav-item" onclick="goPage('transactions',this)"><span class="nav-icon">💳</span>Transacciones</button>
+      <button class="nav-item" onclick="goPage('budgets',this)"><span class="nav-icon">🎯</span>Presupuestos</button>
+      <button class="nav-item" onclick="goPage('simulation',this)"><span class="nav-icon">📈</span>Simulador</button>
+      <button class="nav-item" onclick="goPage('contact',this)"><span class="nav-icon">✉️</span>Contacto</button>
+    </nav>
+    <button class="logout-btn" onclick="doLogout()">🚪 Cerrar sesión</button>
+  </div>
+  <div class="main">
+    <!-- DASHBOARD -->
+    <div id="page-dashboard" class="dpage active">
+      <div class="dpage-title">Dashboard financiero</div>
+      <div class="dpage-sub">Resumen de tu situación financiera · Julio 2026</div>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="slabel">BALANCE TOTAL</div><div class="sval green" id="dash-balance">RD$0</div></div>
+        <div class="stat-card"><div class="slabel">INGRESOS DEL MES</div><div class="sval" id="dash-income">RD$0</div></div>
+        <div class="stat-card"><div class="slabel">GASTOS DEL MES</div><div class="sval red" id="dash-expense">RD$0</div></div>
+        <div class="stat-card"><div class="slabel">TRANSACCIONES</div><div class="sval purple" id="dash-count">0</div></div>
+      </div>
+      <div class="dsection">
+        <div class="dsection-head"><div class="dsection-title">Actividad reciente</div><button class="add-btn" onclick="openModal()">+ Agregar</button></div>
+        <div id="dash-tx-list" class="tx-list"><div class="dempty">No hay transacciones aún. ¡Agrega tu primera!</div></div>
+      </div>
+      <div class="dsection">
+        <div class="dsection-title" style="margin-bottom:0.8rem">Ingresos vs Gastos</div>
+        <div id="mini-chart" class="mini-chart"></div>
+        <div style="display:flex;gap:1.5rem;margin-top:0.6rem"><span style="font-size:0.75rem;color:var(--teal)">■ Ingresos</span><span style="font-size:0.75rem;color:var(--red)">■ Gastos</span></div>
+      </div>
+    </div>
+    <!-- TRANSACTIONS -->
+    <div id="page-transactions" class="dpage">
+      <div class="dpage-title">Transacciones</div>
+      <div class="dpage-sub">Registro completo de ingresos y gastos</div>
+      <div class="dsection">
+        <div class="dsection-head"><div class="dsection-title">Todas las transacciones</div><button class="add-btn" onclick="openModal()">+ Nueva</button></div>
+        <div id="full-tx-list" class="tx-list"><div class="dempty">No hay transacciones aún.</div></div>
+      </div>
+    </div>
+    <!-- BUDGETS -->
+    <div id="page-budgets" class="dpage">
+      <div class="dpage-title">Presupuestos</div>
+      <div class="dpage-sub">Control de límites de gasto por categoría</div>
+      <div class="dsection"><div class="dsection-title" style="margin-bottom:1rem">Uso del presupuesto mensual</div><div id="budget-list"></div></div>
+      <div class="kpi-grid" style="margin-top:1.2rem">
+        <div class="kpi-card"><div class="kpi-icon">🎯</div><div class="kpi-val" style="color:var(--teal)" id="kpi-saved">RD$0</div><div class="kpi-label">Ahorro estimado</div></div>
+        <div class="kpi-card"><div class="kpi-icon">📊</div><div class="kpi-val" style="color:var(--purple-neon)" id="kpi-cats">6</div><div class="kpi-label">Categorías activas</div></div>
+        <div class="kpi-card"><div class="kpi-icon">⚠️</div><div class="kpi-val" style="color:var(--amber)" id="kpi-over">0</div><div class="kpi-label">Categorías al límite</div></div>
+      </div>
+    </div>
+    <!-- SIMULATION -->
+    <div id="page-simulation" class="dpage">
+      <div class="dpage-title">Simulador macroeconómico</div>
+      <div class="dpage-sub">Variables reales del Banco Central de la República Dominicana · BCRD 2026</div>
+      <div class="dsection">
+        <div class="dsection-title" style="margin-bottom:1rem">Impacto de la inflación en tus costos</div>
+        <div class="sim-inputs">
+          <div class="sim-input-group"><label>Costo fijo mensual (RD$)</label><input type="number" id="sim-costo" value="50000"></div>
+          <div class="sim-input-group"><label>Proyección (meses)</label><input type="number" id="sim-meses" value="12" min="1" max="60"></div>
+          <div class="sim-input-group"><label>Tasa inflación anual (%)</label><input type="number" id="sim-inflacion" value="4.2" step="0.1"></div>
+          <div class="sim-input-group"><label>Tasa de cambio DOP/USD</label><input type="number" id="sim-cambio" value="58.64" step="0.01"></div>
+        </div>
+        <button class="add-btn" style="margin-bottom:1rem" onclick="runSimulation()">▶ Calcular proyección</button>
+        <div class="sim-result">
+          <div class="sim-res-item"><div class="sim-res-label">COSTO INICIAL</div><div class="sim-res-val" id="sim-inicial">—</div></div>
+          <div class="sim-res-item"><div class="sim-res-label">COSTO PROYECTADO</div><div class="sim-res-val" id="sim-final">—</div></div>
+          <div class="sim-res-item"><div class="sim-res-label">INCREMENTO TOTAL</div><div class="sim-res-val" id="sim-delta">—</div></div>
+        </div>
+      </div>
+      <div class="dsection">
+        <div class="dsection-title" style="margin-bottom:1rem">Conversión de divisas · Tasa BCRD oficial</div>
+        <div class="sim-inputs">
+          <div class="sim-input-group"><label>Monto a convertir</label><input type="number" id="conv-monto" value="1000"></div>
+          <div class="sim-input-group"><label>Dirección</label><select id="conv-dir"><option value="dop-usd">RD$ → USD</option><option value="usd-dop">USD → RD$</option></select></div>
+        </div>
+        <button class="add-btn" style="margin-bottom:1rem" onclick="runConversion()">🔄 Convertir</button>
+        <div class="sim-result">
+          <div class="sim-res-item"><div class="sim-res-label">MONTO ORIGINAL</div><div class="sim-res-val" id="conv-orig">—</div></div>
+          <div class="sim-res-item"><div class="sim-res-label">RESULTADO</div><div class="sim-res-val" id="conv-res">—</div></div>
+          <div class="sim-res-item"><div class="sim-res-label">TASA BCRD</div><div class="sim-res-val" id="conv-rate" style="color:var(--purple-neon)">RD$58.64</div></div>
+        </div>
+      </div>
+    </div>
+    <!-- CONTACT -->
+    <div id="page-contact" class="dpage">
+      <div class="dpage-title">Contacto</div>
+      <div class="dpage-sub">¿Tienes preguntas sobre Sutrax Economics?</div>
+      <div class="dsection">
+        <div class="dsection-title" style="margin-bottom:1rem">Enviar mensaje</div>
+        <div class="ct-form">
+          <div class="ct-row">
+            <div class="ct-group"><label>Nombre completo</label><input type="text" id="ct-name" placeholder="Tu nombre"></div>
+            <div class="ct-group"><label>Correo electrónico</label><input type="email" id="ct-email" placeholder="tu@email.com"></div>
+          </div>
+          <div class="ct-group"><label>Tipo de consulta</label><select id="ct-type"><option>Quiero probar el producto</option><option>Plan corporativo B2B</option><option>Alianza estratégica</option><option>Soporte técnico</option><option>Otro</option></select></div>
+          <div class="ct-group"><label>Mensaje</label><textarea id="ct-msg" placeholder="Cuéntanos sobre tu caso o negocio..."></textarea></div>
+          <button class="ct-send" onclick="sendContact()">Enviar mensaje →</button>
+          <div class="ct-success" id="ct-success">✅ ¡Mensaje enviado! Te contactaremos pronto.</div>
+        </div>
+      </div>
+      <div class="dsection">
+        <div class="dsection-title" style="margin-bottom:0.8rem">Información de contacto</div>
+        <div style="display:flex;flex-direction:column;gap:0.6rem">
+          <div style="font-size:0.88rem;color:var(--muted)">📍 Santo Domingo, República Dominicana</div>
+          <div style="font-size:0.88rem;color:var(--muted)">🎓 UAPA · Informática Gerencial · ISW410</div>
+          <div style="font-size:0.88rem;color:var(--muted)">🏢 Sutrax Tech · Eric A. Diaz Gil</div>
+          <div style="font-size:0.88rem;color:var(--muted)">📧 contacto@sutraxeconomics.com</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TRANSACCIÓN -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-title">Nueva transacción</div>
+    <div class="mgroup" style="margin-bottom:0.8rem"><label>Tipo</label>
+      <select id="tx-type"><option value="income">💚 Ingreso</option><option value="expense">🔴 Gasto</option></select>
+    </div>
+    <div class="modal-grid">
+      <div class="mgroup"><label>Monto (RD$)</label><input type="number" id="tx-amount" placeholder="5000" min="1"></div>
+      <div class="mgroup"><label>Categoría</label>
+        <select id="tx-cat"><option>Salario</option><option>Ventas</option><option>Freelance</option><option>Alimentación</option><option>Transporte</option><option>Servicios</option><option>Entretenimiento</option><option>Salud</option><option>Educación</option><option>Otros</option></select>
+      </div>
+    </div>
+    <div class="mgroup" style="margin-top:0.8rem"><label>Descripción</label><input type="text" id="tx-desc" placeholder="Ej: Pago de nómina"></div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-save" onclick="saveTransaction()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────
+const USERS = {'demo@sutrax.com':{pass:'demo123',name:'Eric Diaz'}};
+let currentUser = null;
+let transactions = JSON.parse(localStorage.getItem('sx_tx')||'[]');
+const BUDGETS = {Alimentación:8000,Transporte:4000,Servicios:5000,Entretenimiento:3000,Salud:6000,Educación:4000};
+const CAT_ICONS = {Salario:'💼',Ventas:'🛒',Freelance:'💻',Alimentación:'🍽️',Transporte:'🚗',Servicios:'⚡',Entretenimiento:'🎉',Salud:'❤️',Educación:'📚',Otros:'📦'};
+
+// ── SCREEN NAVIGATION ─────────────────────────────────────
+function showScreen(id){
+  ['landing-screen','auth-screen','app-screen'].forEach(s=>{
+    const el=document.getElementById(s);
+    el.style.display='none';
+    el.classList.remove('active');
+  });
+  const target=document.getElementById(id);
+  if(id==='app-screen'){
+    target.style.display='flex';
+  } else {
+    target.style.display='flex';
+    target.style.flexDirection='column';
+  }
+  target.classList.add('active');
+  window.scrollTo(0,0);
+}
+function goToAuth(){ showScreen('auth-screen'); }
+function goToLanding(){ showScreen('landing-screen'); }
+
+// ── AUTH ──────────────────────────────────────────────────
+function switchTab(t){
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',i===(t==='login'?0:1)));
+  document.getElementById('login-form').style.display=t==='login'?'block':'none';
+  document.getElementById('register-form').style.display=t==='register'?'block':'none';
+}
+function doLogin(){
+  const e=document.getElementById('login-email').value.trim().toLowerCase();
+  const p=document.getElementById('login-pass').value;
+  const err=document.getElementById('login-err');
+  if(USERS[e]&&USERS[e].pass===p){
+    currentUser={email:e,name:USERS[e].name};
+    err.style.display='none';
+    launchApp();
+  } else { err.style.display='block'; }
+}
+function doRegister(){
+  const n=document.getElementById('reg-name').value.trim();
+  const e=document.getElementById('reg-email').value.trim().toLowerCase();
+  const p=document.getElementById('reg-pass').value;
+  const err=document.getElementById('reg-err');
+  if(!n||!e||!p){err.textContent='Completa todos los campos.';err.style.display='block';return;}
+  if(p.length<6){err.textContent='La contraseña debe tener mínimo 6 caracteres.';err.style.display='block';return;}
+  USERS[e]={pass:p,name:n};
+  currentUser={email:e,name:n};
+  err.style.display='none';
+  launchApp();
+}
+function launchApp(){
+  const initials=currentUser.name.split(' ').map(x=>x[0]).join('').substring(0,2).toUpperCase();
+  document.getElementById('user-avatar').textContent=initials;
+  document.getElementById('user-name-display').textContent=currentUser.name;
+  showScreen('app-screen');
+  refreshAll();
+}
+function doLogout(){
+  currentUser=null;
+  document.getElementById('login-email').value='';
+  document.getElementById('login-pass').value='';
+  goToLanding();
+}
+
+// ── APP NAVIGATION ────────────────────────────────────────
+function goPage(id,btn){
+  document.querySelectorAll('.dpage').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  btn.classList.add('active');
+  if(id==='budgets')renderBudgets();
+}
+
+// ── MODAL ─────────────────────────────────────────────────
+function openModal(){document.getElementById('modal').classList.add('open');}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function saveTransaction(){
+  const type=document.getElementById('tx-type').value;
+  const amount=parseFloat(document.getElementById('tx-amount').value);
+  const cat=document.getElementById('tx-cat').value;
+  const desc=document.getElementById('tx-desc').value||cat;
+  if(!amount||amount<=0){alert('Ingresa un monto válido');return;}
+  transactions.unshift({id:Date.now(),type,amount,cat,desc,date:new Date().toLocaleDateString('es-DO',{day:'2-digit',month:'short'})});
+  localStorage.setItem('sx_tx',JSON.stringify(transactions));
+  closeModal();
+  document.getElementById('tx-amount').value='';
+  document.getElementById('tx-desc').value='';
+  refreshAll();
+}
+
+// ── RENDER ────────────────────────────────────────────────
+function fmt(n){return 'RD$'+n.toLocaleString('es-DO',{minimumFractionDigits:0,maximumFractionDigits:0});}
+function txHTML(tx){
+  return `<div class="tx-item">
+    <div class="tx-left"><div class="tx-icon ${tx.type}">${CAT_ICONS[tx.cat]||'📦'}</div>
+    <div><div class="tx-desc">${tx.desc}</div><div class="tx-cat">${tx.cat} · <span class="tag ${tx.type}">${tx.type==='income'?'Ingreso':'Gasto'}</span></div></div></div>
+    <div style="text-align:right"><div class="tx-amount ${tx.type}">${tx.type==='income'?'+':'-'}${fmt(tx.amount)}</div><div class="tx-date">${tx.date}</div></div>
+  </div>`;
+}
+function refreshAll(){
+  const income=transactions.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
+  const expense=transactions.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+  document.getElementById('dash-balance').textContent=fmt(income-expense);
+  document.getElementById('dash-income').textContent=fmt(income);
+  document.getElementById('dash-expense').textContent=fmt(expense);
+  document.getElementById('dash-count').textContent=transactions.length;
+  const r=transactions.slice(0,5);
+  document.getElementById('dash-tx-list').innerHTML=r.length?r.map(txHTML).join(''):'<div class="dempty">No hay transacciones aún. ¡Agrega tu primera!</div>';
+  document.getElementById('full-tx-list').innerHTML=transactions.length?transactions.map(txHTML).join(''):'<div class="dempty">No hay transacciones aún.</div>';
+  renderChart();
+}
+function renderChart(){
+  const inc=[0,0,0,0],exp=[0,0,0,0];
+  transactions.forEach((t,i)=>{const w=Math.min(Math.floor(i/Math.max(1,Math.ceil(transactions.length/4))),3);if(t.type==='income')inc[w]+=t.amount;else exp[w]+=t.amount;});
+  const mx=Math.max(...inc,...exp,1);
+  document.getElementById('mini-chart').innerHTML=['Sem 1','Sem 2','Sem 3','Sem 4'].map((_,i)=>`
+    <div style="flex:1;display:flex;align-items:flex-end;gap:2px;height:80px">
+      <div class="mbar" style="height:${Math.max(4,(inc[i]/mx)*76)}px;background:var(--teal);opacity:0.8" title="${fmt(inc[i])}"></div>
+      <div class="mbar" style="height:${Math.max(4,(exp[i]/mx)*76)}px;background:var(--red);opacity:0.7" title="${fmt(exp[i])}"></div>
+    </div>`).join('');
+}
+function renderBudgets(){
+  const expByCat={};
+  transactions.filter(t=>t.type==='expense').forEach(t=>{expByCat[t.cat]=(expByCat[t.cat]||0)+t.amount;});
+  const colors=['var(--purple)','var(--blue)','var(--teal)','var(--amber)','var(--red)','var(--purple-neon)'];
+  let html='',over=0;
+  Object.entries(BUDGETS).forEach(([cat,limit],i)=>{
+    const spent=expByCat[cat]||0;
+    const pct=Math.min(100,Math.round((spent/limit)*100));
+    if(pct>=90)over++;
+    const color=pct>=90?'var(--red)':pct>=60?'var(--amber)':colors[i%colors.length];
+    html+=`<div class="budget-item"><div class="budget-header"><span class="budget-cat">${CAT_ICONS[cat]||'📦'} ${cat}</span><span class="budget-nums">${fmt(spent)} / ${fmt(limit)} · <strong style="color:${color}">${pct}%</strong></span></div><div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div></div>`;
+  });
+  document.getElementById('budget-list').innerHTML=html;
+  const income=transactions.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
+  const expense=transactions.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+  document.getElementById('kpi-saved').textContent=fmt(Math.max(0,income-expense));
+  document.getElementById('kpi-over').textContent=over;
+}
+
+// ── SIMULATION ────────────────────────────────────────────
+function runSimulation(){
+  const costo=parseFloat(document.getElementById('sim-costo').value)||50000;
+  const meses=parseInt(document.getElementById('sim-meses').value)||12;
+  const inf=parseFloat(document.getElementById('sim-inflacion').value)||4.2;
+  const final=costo*Math.pow(1+(inf/100)/12,meses);
+  document.getElementById('sim-inicial').textContent=fmt(Math.round(costo));
+  document.getElementById('sim-final').textContent=fmt(Math.round(final));
+  document.getElementById('sim-delta').textContent='+'+fmt(Math.round(final-costo))+' (+'+(inf*meses/12).toFixed(1)+'%)';
+}
+function runConversion(){
+  const monto=parseFloat(document.getElementById('conv-monto').value)||1000;
+  const dir=document.getElementById('conv-dir').value;
+  const rate=parseFloat(document.getElementById('sim-cambio').value)||58.64;
+  const res=dir==='dop-usd'?monto/rate:monto*rate;
+  document.getElementById('conv-orig').textContent=dir==='dop-usd'?'RD$'+monto.toLocaleString():'USD $'+monto.toLocaleString();
+  document.getElementById('conv-res').textContent=dir==='dop-usd'?'USD $'+res.toFixed(2):'RD$'+Math.round(res).toLocaleString();
+  document.getElementById('conv-rate').textContent='RD$'+rate.toFixed(2)+'/USD';
+}
+
+// ── CONTACT ───────────────────────────────────────────────
+function sendLandingContact(){
+  const n=document.getElementById('l-name').value.trim();
+  const e=document.getElementById('l-email').value.trim();
+  const m=document.getElementById('l-msg').value.trim();
+  if(!n||!e||!m){alert('Por favor completa todos los campos.');return;}
+  document.getElementById('l-success').style.display='block';
+  document.getElementById('l-name').value='';document.getElementById('l-email').value='';document.getElementById('l-msg').value='';
+  setTimeout(()=>document.getElementById('l-success').style.display='none',5000);
+}
+function sendContact(){
+  const n=document.getElementById('ct-name').value.trim();
+  const e=document.getElementById('ct-email').value.trim();
+  const m=document.getElementById('ct-msg').value.trim();
+  if(!n||!e||!m){alert('Por favor completa todos los campos.');return;}
+  document.getElementById('ct-success').style.display='block';
+  document.getElementById('ct-name').value='';document.getElementById('ct-email').value='';document.getElementById('ct-msg').value='';
+  setTimeout(()=>document.getElementById('ct-success').style.display='none',5000);
+}
+
+refreshAll();
+</script>
+</body>
+</html>
